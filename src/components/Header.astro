@@ -9,7 +9,7 @@ const currentPath = Astro.url.pathname;
 const isActive = (href: string) =>
   href === '/' ? currentPath === '/' : currentPath.startsWith(href);
 ---
-<header class="sticky top-0 z-40 w-full border-b border-brand-100 bg-white/95 backdrop-blur supports-[backdrop-filter]:bg-white/85">
+<header data-header class="sticky top-0 z-40 w-full border-b border-brand-100 bg-white/95 backdrop-blur supports-[backdrop-filter]:bg-white/85">
   <!-- barra superior -->
   <div class="hidden bg-brand-900 text-brand-100 lg:block">
     <div class="container-page flex h-9 items-center justify-between text-xs">

@@ -116,9 +116,12 @@ const title = `${p.name} | Precio en Perú | ${SITE.name}`.slice(0, 65);
   {related.length > 0 && (
     <section class="border-t border-brand-100 bg-brand-50 py-14">
       <div class="container-page">
-        <h2 class="text-2xl font-extrabold text-brand-950">Productos relacionados</h2>
-        <div class="mt-8 grid grid-cols-2 gap-5 lg:grid-cols-4">
-          {related.map((r) => <ProductCard product={r} />)}
+        <p class="eyebrow" data-reveal>También te puede interesar</p>
+        <h2 data-reveal class="mt-2 text-2xl font-black tracking-tight text-brand-950 sm:text-3xl">Productos relacionados</h2>
+        <div class="mt-8 grid grid-cols-2 gap-x-5 gap-y-10 lg:grid-cols-4">
+          {related.map((r, i) => (
+            <div data-reveal data-delay={String(i % 4)}><ProductCard product={r} /></div>
+          ))}
         </div>
       </div>
     </section>

@@ -1,0 +1,127 @@
+---
+import { Image } from 'astro:assets';
+import type { Product } from '../lib/catalog';
+import { primaryImage, formatPrice, discountPct, productPath } from '../lib/catalog';
+import { whatsappLink } from '../config/site';
+import Icon from './Icon.astro';
+
+interface Props { products: Product[] }
+const { products } = Astro.props;
+const slides = products.slice(0, 5).map((p) => ({
+  p, img: primaryImage(p), pct: discountPct(p),
+}));
+---
+<section class="hero-carousel relative overflow-hidden bg-brand-950 text-white" aria-roledescription="carrusel" aria-label="Productos destacados">
+  <div class="pointer-events-none absolute inset-0 opacity-30" aria-hidden="true"
+    style="background-image: radial-gradient(circle at 12% 25%, #1b75bc 0, transparent 46%), radial-gradient(circle at 88% 8%, #ffd400 0, transparent 26%);"></div>
+
+  <div class="relative">
+    {slides.map((s, i) => (
+      <article
+        data-slide={i}
+        class:list={['hero-slide', i !== 0 && 'pointer-events-none absolute inset-0 opacity-0']}
+        aria-hidden={i !== 0 ? 'true' : 'false'}>
+        <div class="container-page grid items-center gap-8 py-14 lg:grid-cols-2 lg:py-20">
+          <div class="hero-copy">
+            <p class="eyebrow text-gold-300">{s.p.categories[0]?.name ?? 'Destacado'}{s.pct ? ` · -${s.pct}% OFF` : ''}</p>
+            <h1 class="mt-4 text-4xl font-black leading-[1.05] tracking-tight sm:text-5xl lg:text-6xl">{s.p.name.split(' ').slice(0, 6).join(' ')}</h1>
+            <p class="mt-5 max-w-lg text-base text-brand-200 sm:text-lg">{s.p.brands[0]?.name ? `${s.p.brands[0].name} · ` : ''}Disponible en Lima con envíos a todo el Perú.</p>
+            <div class="mt-6 flex flex-wrap items-center gap-4">
+              <span class="text-2xl font-extrabold text-gold-400">{formatPrice(s.p.salePrice ?? s.p.price)}</span>
+              {s.pct && s.p.regularPrice && <span class="text-base text-brand-300 line-through">{formatPrice(s.p.regularPrice)}</span>}
+            </div>
+            <div class="mt-7 flex flex-col gap-3 sm:flex-row">
+              <a href={productPath(s.p.slug)} class="inline-flex items-center justify-center gap-2 rounded-xl bg-gold-400 px-6 py-3.5 font-extrabold text-ink transition hover:bg-gold-300">
+                Ver producto <Icon name="arrow" size={19} />
+              </a>
+              <a href={whatsappLink(`Hola, me interesa "${s.p.name}".`)} target="_blank" rel="noopener" class="inline-flex items-center justify-center gap-2 rounded-xl border border-white/25 px-6 py-3.5 font-semibold text-white transition hover:bg-white/10">
+                <Icon name="whatsapp" size={19} /> Cotizar
+              </a>
+            </div>
+          </div>
+          {s.img && (
+            <div class="hero-art relative">
+              <div class="mx-auto max-w-md rounded-3xl bg-white p-6 shadow-2xl sm:p-8">
+                <Image src={s.img} alt={s.p.name} widths={[420, 760]} sizes="(max-width:1024px) 80vw, 440px" loading={i === 0 ? 'eager' : 'lazy'} class="aspect-square w-full object-contain" />
+              </div>
+            </div>
+          )}
+        </div>
+      </article>
+    ))}
+
+    {slides.length > 1 && (
+      <>
+        <button type="button" data-prev aria-label="Anterior" class="absolute left-3 top-1/2 z-10 grid h-11 w-11 -translate-y-1/2 place-items-center rounded-full border border-white/25 bg-white/10 text-white backdrop-blur transition hover:bg-white/20 lg:left-6">
+          <Icon name="chevron" size={22} class="rotate-180" />
+        </button>
+        <button type="button" data-next aria-label="Siguiente" class="absolute right-3 top-1/2 z-10 grid h-11 w-11 -translate-y-1/2 place-items-center rounded-full border border-white/25 bg-white/10 text-white backdrop-blur transition hover:bg-white/20 lg:right-6">
+          <Icon name="chevron" size={22} />
+        </button>
+        <div class="absolute inset-x-0 bottom-5 z-10 flex justify-center gap-2">
+          {slides.map((_, i) => (
+            <button type="button" data-dot={i} aria-label={`Ir al destacado ${i + 1}`}
+              class:list={['hero-dot h-2 rounded-full transition-all', i === 0 ? 'w-7 bg-gold-400' : 'w-2 bg-white/40']}></button>
+          ))}
+        </div>
+      </>
+    )}
+  </div>
+  <div class="absolute inset-x-0 bottom-0 h-1.5 bg-gold-400" aria-hidden="true"></div>
+</section>
+
+<style>
+  .hero-slide { transition: opacity 0.6s ease; }
+  .hero-slide[aria-hidden='false'] { opacity: 1; }
+  .hero-copy > *, .hero-art { opacity: 0; transform: translateY(18px); }
+  .hero-slide[aria-hidden='false'] .hero-copy > *,
+  .hero-slide[aria-hidden='false'] .hero-art {
+    animation: heroIn 0.7s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  }
+  .hero-slide[aria-hidden='false'] .hero-copy > *:nth-child(2) { animation-delay: 0.06s; }
+  .hero-slide[aria-hidden='false'] .hero-copy > *:nth-child(3) { animation-delay: 0.12s; }
+  .hero-slide[aria-hidden='false'] .hero-copy > *:nth-child(4) { animation-delay: 0.18s; }
+  .hero-slide[aria-hidden='false'] .hero-copy > *:nth-child(5) { animation-delay: 0.24s; }
+  .hero-slide[aria-hidden='false'] .hero-art { animation-delay: 0.1s; }
+  @keyframes heroIn { to { opacity: 1; transform: none; } }
+  @media (prefers-reduced-motion: reduce) {
+    .hero-slide, .hero-copy > *, .hero-art { transition: none; animation: none; opacity: 1; transform: none; }
+  }
+</style>
+
+<script>
+  document.querySelectorAll<HTMLElement>('.hero-carousel').forEach((root) => {
+    const slides = Array.from(root.querySelectorAll<HTMLElement>('[data-slide]'));
+    const dots = Array.from(root.querySelectorAll<HTMLButtonElement>('[data-dot]'));
+    if (slides.length < 2) return;
+    let idx = 0;
+    let timer: number | undefined;
+
+    const show = (n: number) => {
+      idx = (n + slides.length) % slides.length;
+      slides.forEach((s, i) => {
+        const active = i === idx;
+        s.setAttribute('aria-hidden', active ? 'false' : 'true');
+        s.classList.toggle('opacity-0', !active);
+        s.classList.toggle('pointer-events-none', !active);
+        s.classList.toggle('absolute', !active);
+        s.classList.toggle('inset-0', !active);
+      });
+      dots.forEach((d, i) => {
+        const on = i === idx;
+        d.classList.toggle('w-7', on); d.classList.toggle('bg-gold-400', on);
+        d.classList.toggle('w-2', !on); d.classList.toggle('bg-white/40', !on);
+      });
+    };
+    const next = () => show(idx + 1);
+    const start = () => { stop(); timer = window.setInterval(next, 6000); };
+    const stop = () => { if (timer) window.clearInterval(timer); };
+
+    root.querySelector('[data-next]')?.addEventListener('click', () => { next(); start(); });
+    root.querySelector('[data-prev]')?.addEventListener('click', () => { show(idx - 1); start(); });
+    dots.forEach((d, i) => d.addEventListener('click', () => { show(i); start(); }));
+    root.addEventListener('mouseenter', stop);
+    root.addEventListener('mouseleave', start);
+    start();
+  });
+</script>

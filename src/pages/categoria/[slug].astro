@@ -24,15 +24,18 @@ const jsonLd = [breadcrumbSchema(breadcrumbItems), itemListSchema(items, product
 ---
 <Layout title={`${category.name} en Lima, Perú | ${SITE.name}`} description={desc} canonical={url} jsonLd={jsonLd}>
   <Breadcrumbs items={breadcrumbItems} />
-  <section class="container-page py-8">
-    <header class="max-w-3xl">
-      <h1 class="text-3xl font-extrabold text-brand-950">{category.name}</h1>
-      <p class="mt-2 text-brand-600">{items.length} {items.length === 1 ? 'producto' : 'productos'} disponibles · Precios en soles · Envíos a todo el Perú</p>
+  <section class="container-page py-10">
+    <header data-reveal class="max-w-3xl">
+      <p class="eyebrow">Categoría</p>
+      <h1 class="mt-2 text-4xl font-black tracking-tight text-brand-950">{category.name}</h1>
+      <p class="mt-2 text-brand-600">{items.length} {items.length === 1 ? 'producto' : 'productos'} · Precios en soles · Envíos a todo el Perú</p>
       {category.description && <div class="prose-wi mt-3" set:html={category.description} />}
     </header>
 
-    <div class="mt-8 grid grid-cols-2 gap-5 sm:grid-cols-3 lg:grid-cols-4">
-      {items.map((p, i) => <ProductCard product={p} loading={i < 4 ? 'eager' : 'lazy'} />)}
+    <div class="mt-10 grid grid-cols-2 gap-x-5 gap-y-10 sm:grid-cols-3 lg:grid-cols-4">
+      {items.map((p, i) => (
+        <div data-reveal data-delay={String(i % 4)}><ProductCard product={p} loading={i < 4 ? 'eager' : 'lazy'} /></div>
+      ))}
     </div>
   </section>
   <CTASection />

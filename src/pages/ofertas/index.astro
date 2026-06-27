@@ -20,13 +20,16 @@ const jsonLd = [breadcrumbSchema(breadcrumbItems), itemListSchema(items, product
   canonical="/ofertas/"
   jsonLd={jsonLd}>
   <Breadcrumbs items={breadcrumbItems} />
-  <section class="container-page py-8">
-    <header class="max-w-3xl">
-      <h1 class="text-3xl font-extrabold text-brand-950">Ofertas y descuentos</h1>
+  <section class="container-page py-10">
+    <header data-reveal class="max-w-3xl">
+      <p class="eyebrow text-gold-600">Promociones</p>
+      <h1 class="mt-2 text-4xl font-black tracking-tight text-brand-950">Ofertas y descuentos</h1>
       <p class="mt-2 text-brand-600">{items.length} productos en oferta · Precios en soles</p>
     </header>
-    <div class="mt-8 grid grid-cols-2 gap-5 sm:grid-cols-3 lg:grid-cols-4">
-      {items.map((p, i) => <ProductCard product={p} loading={i < 8 ? 'eager' : 'lazy'} />)}
+    <div class="mt-10 grid grid-cols-2 gap-x-5 gap-y-10 sm:grid-cols-3 lg:grid-cols-4">
+      {items.map((p, i) => (
+        <div data-reveal data-delay={String(i % 4)}><ProductCard product={p} loading={i < 8 ? 'eager' : 'lazy'} /></div>
+      ))}
     </div>
   </section>
   <CTASection />

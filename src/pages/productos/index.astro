@@ -21,8 +21,9 @@ const jsonLd = [breadcrumbSchema(breadcrumbItems), itemListSchema(sorted, produc
   jsonLd={jsonLd}>
   <Breadcrumbs items={breadcrumbItems} />
   <section class="container-page py-8">
-    <header class="max-w-3xl">
-      <h1 class="text-3xl font-extrabold text-brand-950">Todos los productos</h1>
+    <header data-reveal class="max-w-3xl">
+      <p class="eyebrow">Catálogo</p>
+      <h1 class="mt-2 text-4xl font-black tracking-tight text-brand-950">Todos los productos</h1>
       <p class="mt-2 text-brand-600">{products.length} productos · Filtra por categoría</p>
     </header>
 
@@ -33,9 +34,9 @@ const jsonLd = [breadcrumbSchema(breadcrumbItems), itemListSchema(sorted, produc
       ))}
     </div>
 
-    <div id="grid" class="mt-8 grid grid-cols-2 gap-5 sm:grid-cols-3 lg:grid-cols-4">
+    <div id="grid" class="mt-10 grid grid-cols-2 gap-x-5 gap-y-10 sm:grid-cols-3 lg:grid-cols-4">
       {sorted.map((p, i) => (
-        <div class="prod" data-cats={p.categories.map((c) => c.slug).join(' ')}>
+        <div class="prod" data-reveal data-delay={String(i % 4)} data-cats={p.categories.map((c) => c.slug).join(' ')}>
           <ProductCard product={p} loading={i < 8 ? 'eager' : 'lazy'} />
         </div>
       ))}

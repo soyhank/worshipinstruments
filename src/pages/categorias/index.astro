@@ -24,26 +24,28 @@ const breadcrumbItems = [
   jsonLd={[breadcrumbSchema(breadcrumbItems)]}>
   <Breadcrumbs items={breadcrumbItems} />
   <section class="container-page py-8">
-    <header class="max-w-3xl">
-      <h1 class="text-3xl font-extrabold text-brand-950">Categorías</h1>
+    <header data-reveal class="max-w-3xl">
+      <p class="eyebrow">Explora</p>
+      <h1 class="mt-2 text-4xl font-black tracking-tight text-brand-950">Categorías</h1>
       <p class="mt-2 text-brand-600">Encuentra el equipo que necesitas por categoría.</p>
     </header>
-    <div class="mt-8 grid grid-cols-2 gap-5 sm:grid-cols-3 lg:grid-cols-4">
-      {cards.map(({ c, img }) => (
-        <a href={categoryPath(c.slug)} class="group overflow-hidden rounded-2xl border border-brand-100 bg-white shadow-sm transition hover:-translate-y-0.5 hover:shadow-card">
-          <div class="aspect-square overflow-hidden bg-brand-50 p-3">
+    <div class="mt-10 grid grid-cols-2 gap-5 sm:grid-cols-3 lg:grid-cols-4">
+      {cards.map(({ c, img }, i) => (
+        <a href={categoryPath(c.slug)} data-reveal data-delay={String(i % 4)}
+          class="group relative overflow-hidden rounded-3xl border border-brand-100 bg-brand-50">
+          <div class="img-zoom aspect-square p-6">
             {img ? (
-              <Image src={img} alt={c.name} widths={[200, 400]} sizes="(max-width:640px) 50vw, 25vw" loading="lazy" class="h-full w-full object-contain transition duration-300 group-hover:scale-105" />
+              <Image src={img} alt={c.name} widths={[200, 400]} sizes="(max-width:640px) 50vw, 25vw" loading="lazy" class="h-full w-full object-contain" />
             ) : (
               <div class="grid h-full place-items-center text-brand-200"><Icon name="music" size={48} /></div>
             )}
           </div>
-          <div class="flex items-center justify-between p-4">
+          <div class="absolute inset-x-0 bottom-0 flex items-center justify-between gap-2 bg-gradient-to-t from-brand-950/85 to-transparent p-4 pt-10 text-white">
             <div>
-              <h2 class="font-bold text-brand-900 group-hover:text-brand-600">{c.name}</h2>
-              <p class="text-xs text-brand-500">{c.count} {c.count === 1 ? 'producto' : 'productos'}</p>
+              <h2 class="font-extrabold leading-tight">{c.name}</h2>
+              <p class="text-xs text-white/70">{c.count} {c.count === 1 ? 'producto' : 'productos'}</p>
             </div>
-            <Icon name="arrow" size={18} class="text-brand-400 transition group-hover:translate-x-1" />
+            <span class="grid h-8 w-8 shrink-0 place-items-center rounded-full bg-white/15 backdrop-blur transition group-hover:bg-gold-400 group-hover:text-ink"><Icon name="arrow" size={16} /></span>
           </div>
         </a>
       ))}
