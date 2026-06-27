@@ -1,0 +1,25 @@
+{
+  "name": "worshipinstruments",
+  "type": "module",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Worship Instruments — tienda de instrumentos y equipos de audio profesional en Lima, Perú. Astro 5 + Vercel, optimizado para SEO y velocidad.",
+  "scripts": {
+    "dev": "astro dev",
+    "start": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "scrape": "node scripts/scrape.mjs",
+    "astro": "astro"
+  },
+  "dependencies": {
+    "@astrojs/sitemap": "^3.5.0",
+    "@tailwindcss/vite": "^4.1.0",
+    "astro": "^5.13.0",
+    "sharp": "^0.34.0",
+    "tailwindcss": "^4.1.0"
+  },
+  "devDependencies": {
+    "typescript": "^5.7.0"
+  }
+}
