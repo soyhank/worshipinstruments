@@ -1,0 +1,106 @@
+[
+  {
+    "id": 260,
+    "name": "Accesorios",
+    "slug": "accesorios-musicales",
+    "count": 1,
+    "description": "Pedestales, Pedales, Cables, Conectores, Atriles, Asientos, Parches, Baquetas, Cajas Directas, Preamps, Audifonos, Cabinas Acusticas, Material Acustico",
+    "image": "https://worshipinstruments.com/wp-content/uploads/2026/06/Accesorios_Musicales.png"
+  },
+  {
+    "id": 85,
+    "name": "Amplificadores de Guitarra",
+    "slug": "amplificadores-de-guitarra",
+    "count": 1,
+    "description": "",
+    "image": null
+  },
+  {
+    "id": 61,
+    "name": "AUDIFONOS",
+    "slug": "audifonos",
+    "count": 1,
+    "description": "",
+    "image": null
+  },
+  {
+    "id": 93,
+    "name": "Bateria Electronica",
+    "slug": "bateria-electronica",
+    "count": 3,
+    "description": "",
+    "image": null
+  },
+  {
+    "id": 40,
+    "name": "Consolas Digitales",
+    "slug": "consolas-digitales",
+    "count": 6,
+    "description": "Consolas Digitales Roland, Yamaha, Midas, Soundcraft",
+    "image": "https://worshipinstruments.com/wp-content/uploads/2025/03/M32_P0B3I_Front_XL.png"
+  },
+  {
+    "id": 20,
+    "name": "DAS Audio",
+    "slug": "das-audio",
+    "count": 4,
+    "description": "Conscientes de que nuestros sistemas de sonido son tu herramienta de trabajo, las prestaciones, la fiabilidad y la durabilidad son las características que distinguen a nuestros equipos de sonido. Queremos estar cerca de ti, como familia y ayudarte a alcanzar tus metas.",
+    "image": "https://worshipinstruments.com/wp-content/uploads/2024/08/LARA_FRONT.png"
+  },
+  {
+    "id": 57,
+    "name": "ELECTRO VOICE",
+    "slug": "electro-voice",
+    "count": 2,
+    "description": "",
+    "image": null
+  },
+  {
+    "id": 18,
+    "name": "Micrófonos Dinámicos y de condensador",
+    "slug": "microfonos-dinamicos-condensador",
+    "count": 28,
+    "description": "Los Micrófonos son los favoritos para canto en vivo profesional, grabación en estudio, podcast, broadcast. Distribuimos prestigiosas marcas como Telefunken, sE electronics, Shure, Akg, Beyer Dynamic, Blue Microphones",
+    "image": "https://worshipinstruments.com/wp-content/uploads/2024/09/Telefunken-Custom-wood.png"
+  },
+  {
+    "id": 22,
+    "name": "Piano Digitales",
+    "slug": "piano-digitales",
+    "count": 4,
+    "description": "Aqui encontraras una amplia coleccion de Pianos Digitales de las mas prestigiosas marcas como son Roland, Korg, Yamaha",
+    "image": "https://worshipinstruments.com/wp-content/uploads/2024/08/xps-30_dr_gal.jpg"
+  },
+  {
+    "id": 34,
+    "name": "sE electronics",
+    "slug": "microfonos",
+    "count": 8,
+    "description": "Los Micrófonos sE electronics, son un Standard para canto en vivo profesional,\r\npara grabación en el Estudio",
+    "image": "https://worshipinstruments.com/wp-content/uploads/2024/09/MGP_SE.png"
+  },
+  {
+    "id": 97,
+    "name": "Sintetizadores",
+    "slug": "sintetizadores",
+    "count": 3,
+    "description": "",
+    "image": null
+  },
+  {
+    "id": 21,
+    "name": "SWITCHER DE VIDEO ROLAND",
+    "slug": "switcher-de-video-roland",
+    "count": 6,
+    "description": "El nuevo estándar en mezcla de vídeo para eventos híbridos\r\nEl V-160HD es el nuevo referente en conmutación de eventos híbridos gracias a una completa serie de características avanzadas que permiten cubrir cualquier producción moderna. Conecta con público en vivo en Full HD con un completo sistema de entradas y salidas SDI y HDMI, y transmite simultáneamente a las plataformas web por USB-C. También hay un procesador de efectos de vídeo de ocho capas, un mezclador de audio digital de 40 canales y un control de cámaras PTZ integrado, así como gestión de entrada de nueva generación y automatización de espectáculos en vivo para simplificar las producciones más complejas. Todo esto viene condensado en un diseño portátil con una interfaz de estudio de retransmisión que un único operador puede manejar fácilmente.",
+    "image": "https://worshipinstruments.com/wp-content/uploads/2024/08/v-160hd_rear45R_gal.jpg"
+  },
+  {
+    "id": 29,
+    "name": "TELEFUNKEN",
+    "slug": "telefunken",
+    "count": 6,
+    "description": "",
+    "image": "https://worshipinstruments.com/wp-content/uploads/2024/09/M80_CUSTOM.jpg"
+  }
+]
