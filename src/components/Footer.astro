@@ -1,0 +1,62 @@
+---
+import { Image } from 'astro:assets';
+import { SITE, CONTACT, SOCIAL, whatsappLink } from '../config/site';
+import { categories, categoryPath } from '../lib/catalog';
+import Icon from './Icon.astro';
+import logo from '../assets/brand/logo.png';
+
+const year = new Date().getFullYear();
+const topCats = categories.slice(0, 8);
+---
+<footer class="mt-20 border-t border-brand-100 bg-brand-950 text-brand-100">
+  <div class="container-page grid gap-10 py-14 md:grid-cols-2 lg:grid-cols-4">
+    <div>
+      <div class="inline-block rounded-xl bg-white p-3">
+        <Image src={logo} alt="Worship Instruments" widths={[160, 320]} sizes="160px" loading="lazy" class="h-16 w-auto" />
+      </div>
+      <p class="mt-4 text-sm leading-relaxed text-brand-200">{SITE.description}</p>
+      <div class="mt-5 flex gap-3">
+        {SOCIAL.facebook && <a href={SOCIAL.facebook} target="_blank" rel="noopener" aria-label="Facebook" class="grid h-9 w-9 place-items-center rounded-lg bg-brand-800 hover:bg-brand-700"><Icon name="facebook" size={18} /></a>}
+        {SOCIAL.instagram && <a href={SOCIAL.instagram} target="_blank" rel="noopener" aria-label="Instagram" class="grid h-9 w-9 place-items-center rounded-lg bg-brand-800 hover:bg-brand-700"><Icon name="instagram" size={18} /></a>}
+        {SOCIAL.youtube && <a href={SOCIAL.youtube} target="_blank" rel="noopener" aria-label="YouTube" class="grid h-9 w-9 place-items-center rounded-lg bg-brand-800 hover:bg-brand-700"><Icon name="youtube" size={18} /></a>}
+      </div>
+    </div>
+
+    <div>
+      <h2 class="text-sm font-bold uppercase tracking-wide text-white">Categorías</h2>
+      <ul class="mt-4 space-y-2 text-sm">
+        {topCats.map((c) => (
+          <li><a href={categoryPath(c.slug)} class="text-brand-200 hover:text-gold-400">{c.name}</a></li>
+        ))}
+      </ul>
+    </div>
+
+    <div>
+      <h2 class="text-sm font-bold uppercase tracking-wide text-white">Enlaces</h2>
+      <ul class="mt-4 space-y-2 text-sm">
+        <li><a href="/productos/" class="text-brand-200 hover:text-gold-400">Todos los productos</a></li>
+        <li><a href="/ofertas/" class="text-brand-200 hover:text-gold-400">Ofertas</a></li>
+        <li><a href="/categorias/" class="text-brand-200 hover:text-gold-400">Categorías</a></li>
+        <li><a href="/nosotros/" class="text-brand-200 hover:text-gold-400">Nosotros</a></li>
+        <li><a href="/contacto/" class="text-brand-200 hover:text-gold-400">Contacto</a></li>
+      </ul>
+    </div>
+
+    <div>
+      <h2 class="text-sm font-bold uppercase tracking-wide text-white">Contacto</h2>
+      <ul class="mt-4 space-y-3 text-sm">
+        <li class="flex items-start gap-2"><Icon name="pin" size={18} class="mt-0.5 shrink-0 text-gold-400" /><span>{CONTACT.address.street}, {CONTACT.address.district}, {CONTACT.address.city}</span></li>
+        <li class="flex items-center gap-2"><Icon name="whatsapp" size={18} class="shrink-0 text-gold-400" /><a href={whatsappLink()} target="_blank" rel="noopener" class="hover:text-gold-400">{CONTACT.whatsappDisplay}</a></li>
+        <li class="flex items-center gap-2"><Icon name="phone" size={18} class="shrink-0 text-gold-400" /><a href={`tel:+${CONTACT.phone}`} class="hover:text-gold-400">{CONTACT.phoneDisplay}</a></li>
+        <li class="flex items-center gap-2"><Icon name="clock" size={18} class="shrink-0 text-gold-400" /><span>Lun a Sáb · 10:00–19:00</span></li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="border-t border-brand-800">
+    <div class="container-page flex flex-col items-center justify-between gap-2 py-6 text-xs text-brand-300 sm:flex-row">
+      <p>© {year} {SITE.name}. Todos los derechos reservados.</p>
+      <p>Proaudio · Video · Instrumentos musicales · Sonido para iglesia</p>
+    </div>
+  </div>
+</footer>

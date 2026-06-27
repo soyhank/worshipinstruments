@@ -1,0 +1,67 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
+import ProductCard from '../../components/ProductCard.astro';
+import CTASection from '../../components/CTASection.astro';
+import { SITE } from '../../config/site';
+import { products, categories, productPath } from '../../lib/catalog';
+import { breadcrumbSchema, itemListSchema } from '../../lib/schema';
+
+const sorted = products.slice().sort((a, b) => a.name.localeCompare(b.name));
+const breadcrumbItems = [
+  { name: 'Inicio', url: '/' },
+  { name: 'Productos', url: '/productos/' },
+];
+const jsonLd = [breadcrumbSchema(breadcrumbItems), itemListSchema(sorted, productPath)];
+---
+<Layout
+  title={`Todos los Productos | Proaudio e Instrumentos | ${SITE.name}`}
+  description="Catálogo completo de proaudio, video e instrumentos musicales en Lima, Perú: micrófonos, consolas, parlantes, pianos y más. Precios en soles."
+  canonical="/productos/"
+  jsonLd={jsonLd}>
+  <Breadcrumbs items={breadcrumbItems} />
+  <section class="container-page py-8">
+    <header class="max-w-3xl">
+      <h1 class="text-3xl font-extrabold text-brand-950">Todos los productos</h1>
+      <p class="mt-2 text-brand-600">{products.length} productos · Filtra por categoría</p>
+    </header>
+
+    <div class="mt-6 flex flex-wrap gap-2" role="group" aria-label="Filtrar por categoría">
+      <button type="button" data-filter="all" class="filter-btn is-active rounded-full border border-brand-200 px-4 py-2 text-sm font-semibold text-brand-700 transition">Todos</button>
+      {categories.map((c) => (
+        <button type="button" data-filter={c.slug} class="filter-btn rounded-full border border-brand-200 px-4 py-2 text-sm font-semibold text-brand-700 transition">{c.name}</button>
+      ))}
+    </div>
+
+    <div id="grid" class="mt-8 grid grid-cols-2 gap-5 sm:grid-cols-3 lg:grid-cols-4">
+      {sorted.map((p, i) => (
+        <div class="prod" data-cats={p.categories.map((c) => c.slug).join(' ')}>
+          <ProductCard product={p} loading={i < 8 ? 'eager' : 'lazy'} />
+        </div>
+      ))}
+    </div>
+    <p id="empty" class="hidden py-10 text-center text-brand-500">No hay productos en esta categoría.</p>
+  </section>
+  <CTASection />
+</Layout>
+
+<style>
+  .filter-btn.is-active { background-color: var(--color-brand-600); color: #fff; border-color: var(--color-brand-600); }
+</style>
+<script>
+  const btns = document.querySelectorAll<HTMLButtonElement>('.filter-btn');
+  const items = document.querySelectorAll<HTMLElement>('.prod');
+  const empty = document.getElementById('empty');
+  btns.forEach((b) => b.addEventListener('click', () => {
+    const f = b.dataset.filter;
+    btns.forEach((x) => x.classList.remove('is-active'));
+    b.classList.add('is-active');
+    let vis = 0;
+    items.forEach((it) => {
+      const show = f === 'all' || (it.dataset.cats || '').split(' ').includes(f!);
+      it.style.display = show ? '' : 'none';
+      if (show) vis++;
+    });
+    empty?.classList.toggle('hidden', vis > 0);
+  }));
+</script>

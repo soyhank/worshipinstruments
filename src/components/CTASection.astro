@@ -1,0 +1,27 @@
+---
+import { whatsappLink, CONTACT } from '../config/site';
+import Icon from './Icon.astro';
+interface Props { title?: string; text?: string; message?: string }
+const {
+  title = '¿Necesitas asesoría para elegir tu equipo?',
+  text = 'Te ayudamos a escoger el micrófono, consola o parlante ideal para tu iglesia o estudio. Escríbenos y cotiza al instante.',
+  message,
+} = Astro.props;
+---
+<section class="py-16">
+  <div class="container-page">
+    <div class="relative overflow-hidden rounded-3xl bg-brand-800 px-6 py-12 text-center text-white shadow-card sm:px-12">
+      <div class="absolute inset-y-0 right-0 w-2 bg-gold-400" aria-hidden="true"></div>
+      <h2 class="mx-auto max-w-2xl text-2xl font-extrabold sm:text-3xl">{title}</h2>
+      <p class="mx-auto mt-4 max-w-2xl text-brand-200">{text}</p>
+      <div class="mt-8 flex flex-col items-center justify-center gap-3 sm:flex-row">
+        <a href={whatsappLink(message)} target="_blank" rel="noopener" class="inline-flex items-center gap-2 rounded-xl bg-gold-400 px-6 py-3 font-extrabold text-ink transition hover:bg-gold-300">
+          <Icon name="whatsapp" size={20} /> Cotizar por WhatsApp
+        </a>
+        <a href={`tel:+${CONTACT.phone}`} class="inline-flex items-center gap-2 rounded-xl border border-white/30 px-6 py-3 font-semibold text-white transition hover:bg-white/10">
+          <Icon name="phone" size={20} /> {CONTACT.phoneDisplay}
+        </a>
+      </div>
+    </div>
+  </div>
+</section>

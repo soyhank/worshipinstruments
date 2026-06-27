@@ -1,0 +1,54 @@
+---
+import { Image } from 'astro:assets';
+import type { Product } from '../lib/catalog';
+import { productImage } from '../lib/catalog';
+
+interface Props { product: Product }
+const { product } = Astro.props;
+const imgs = product.images
+  .map((im) => ({ meta: productImage(im.file), alt: im.alt }))
+  .filter((x) => x.meta);
+---
+<div class="product-gallery">
+  <div class="relative aspect-square overflow-hidden rounded-2xl border border-brand-100 bg-white">
+    {imgs.map((im, i) => (
+      <Image
+        src={im.meta!}
+        alt={im.alt}
+        widths={[400, 700, 1000]}
+        sizes="(max-width: 1024px) 100vw, 500px"
+        loading={i === 0 ? 'eager' : 'lazy'}
+        data-slide={i}
+        class:list={['absolute inset-0 h-full w-full object-contain p-4', i !== 0 && 'hidden']}
+      />
+    ))}
+  </div>
+
+  {imgs.length > 1 && (
+    <div class="mt-3 grid grid-cols-5 gap-2">
+      {imgs.map((im, i) => (
+        <button type="button" data-thumb={i} aria-label={`Ver imagen ${i + 1}`}
+          class:list={['gthumb overflow-hidden rounded-lg border bg-white p-1', i === 0 ? 'border-brand-500' : 'border-brand-100']}>
+          <Image src={im.meta!} alt="" widths={[80, 160]} sizes="80px" loading="lazy" class="aspect-square w-full object-contain" />
+        </button>
+      ))}
+    </div>
+  )}
+</div>
+
+<script>
+  document.querySelectorAll<HTMLElement>('.product-gallery').forEach((g) => {
+    const slides = g.querySelectorAll<HTMLElement>('[data-slide]');
+    const thumbs = g.querySelectorAll<HTMLButtonElement>('[data-thumb]');
+    thumbs.forEach((t) => {
+      t.addEventListener('click', () => {
+        const idx = t.dataset.thumb;
+        slides.forEach((s) => s.classList.toggle('hidden', s.dataset.slide !== idx));
+        thumbs.forEach((o) => {
+          o.classList.toggle('border-brand-500', o === t);
+          o.classList.toggle('border-brand-100', o !== t);
+        });
+      });
+    });
+  });
+</script>

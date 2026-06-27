@@ -1,0 +1,39 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
+import ProductCard from '../../components/ProductCard.astro';
+import CTASection from '../../components/CTASection.astro';
+import { SITE } from '../../config/site';
+import { categories, productsByCategory, categoryPath, productPath } from '../../lib/catalog';
+import { breadcrumbSchema, itemListSchema } from '../../lib/schema';
+
+export async function getStaticPaths() {
+  return categories.map((c) => ({
+    params: { slug: c.slug },
+    props: { category: c, items: productsByCategory(c.slug) },
+  }));
+}
+const { category, items } = Astro.props;
+const url = categoryPath(category.slug);
+const breadcrumbItems = [
+  { name: 'Inicio', url: '/' },
+  { name: category.name, url },
+];
+const desc = `Compra ${category.name} en Lima, Perú. ${items.length} productos con precios en soles, stock real y envíos a todo el país. Cotiza por WhatsApp.`.slice(0, 155);
+const jsonLd = [breadcrumbSchema(breadcrumbItems), itemListSchema(items, productPath)];
+---
+<Layout title={`${category.name} en Lima, Perú | ${SITE.name}`} description={desc} canonical={url} jsonLd={jsonLd}>
+  <Breadcrumbs items={breadcrumbItems} />
+  <section class="container-page py-8">
+    <header class="max-w-3xl">
+      <h1 class="text-3xl font-extrabold text-brand-950">{category.name}</h1>
+      <p class="mt-2 text-brand-600">{items.length} {items.length === 1 ? 'producto' : 'productos'} disponibles · Precios en soles · Envíos a todo el Perú</p>
+      {category.description && <div class="prose-wi mt-3" set:html={category.description} />}
+    </header>
+
+    <div class="mt-8 grid grid-cols-2 gap-5 sm:grid-cols-3 lg:grid-cols-4">
+      {items.map((p, i) => <ProductCard product={p} loading={i < 4 ? 'eager' : 'lazy'} />)}
+    </div>
+  </section>
+  <CTASection />
+</Layout>

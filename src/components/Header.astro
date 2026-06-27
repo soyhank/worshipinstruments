@@ -1,0 +1,74 @@
+---
+import { Image } from 'astro:assets';
+import { NAV, whatsappLink } from '../config/site';
+import { categories, categoryPath } from '../lib/catalog';
+import Icon from './Icon.astro';
+import logo from '../assets/brand/logo.png';
+
+const currentPath = Astro.url.pathname;
+const isActive = (href: string) =>
+  href === '/' ? currentPath === '/' : currentPath.startsWith(href);
+---
+<header class="sticky top-0 z-40 w-full border-b border-brand-100 bg-white/95 backdrop-blur supports-[backdrop-filter]:bg-white/85">
+  <!-- barra superior -->
+  <div class="hidden bg-brand-900 text-brand-100 lg:block">
+    <div class="container-page flex h-9 items-center justify-between text-xs">
+      <p class="flex items-center gap-2"><Icon name="truck" size={14} /> Envíos a todo el Perú · Atención por WhatsApp</p>
+      <a href={whatsappLink()} target="_blank" rel="noopener" class="flex items-center gap-1.5 font-semibold hover:text-gold-400">
+        <Icon name="whatsapp" size={14} /> +51 997 597 511
+      </a>
+    </div>
+  </div>
+
+  <div class="container-page flex h-20 items-center justify-between gap-4">
+    <a href="/" class="flex items-center" aria-label="Worship Instruments - inicio">
+      <Image src={logo} alt="Worship Instruments — proaudio, video e instrumentos musicales" widths={[120, 240]} sizes="120px" loading="eager" class="h-14 w-auto" />
+    </a>
+
+    <nav class="hidden items-center gap-1 lg:flex" aria-label="Navegación principal">
+      <a href="/" class="rounded-md px-3 py-2 text-sm font-semibold text-brand-800 hover:bg-brand-50 aria-[current=page]:text-brand-600" aria-current={isActive('/') && currentPath === '/' ? 'page' : undefined}>Inicio</a>
+      <a href="/productos/" class="rounded-md px-3 py-2 text-sm font-semibold text-brand-800 hover:bg-brand-50">Productos</a>
+      <details class="group relative">
+        <summary class="flex cursor-pointer list-none items-center gap-1 rounded-md px-3 py-2 text-sm font-semibold text-brand-800 hover:bg-brand-50">
+          Categorías <Icon name="chevron" size={14} class="rotate-90 transition group-open:-rotate-90" />
+        </summary>
+        <div class="absolute left-0 top-full z-50 mt-1 w-72 rounded-xl border border-brand-100 bg-white p-2 shadow-card">
+          {categories.map((c) => (
+            <a href={categoryPath(c.slug)} class="flex items-center justify-between rounded-lg px-3 py-2 text-sm text-brand-800 hover:bg-brand-50">
+              <span>{c.name}</span>
+              <span class="rounded-full bg-brand-50 px-2 text-xs text-brand-500">{c.count}</span>
+            </a>
+          ))}
+        </div>
+      </details>
+      <a href="/ofertas/" class="rounded-md px-3 py-2 text-sm font-semibold text-gold-600 hover:bg-gold-300/20">Ofertas</a>
+      <a href="/nosotros/" class="rounded-md px-3 py-2 text-sm font-semibold text-brand-800 hover:bg-brand-50">Nosotros</a>
+      <a href="/contacto/" class="rounded-md px-3 py-2 text-sm font-semibold text-brand-800 hover:bg-brand-50">Contacto</a>
+    </nav>
+
+    <div class="flex items-center gap-2">
+      <a href={whatsappLink()} target="_blank" rel="noopener" class="hidden items-center gap-2 rounded-lg bg-brand-600 px-4 py-2.5 text-sm font-bold text-white shadow-sm transition hover:bg-brand-700 sm:inline-flex">
+        <Icon name="whatsapp" size={18} /> Cotizar
+      </a>
+      <details class="lg:hidden">
+        <summary class="grid h-11 w-11 cursor-pointer list-none place-items-center rounded-lg border border-brand-200 text-brand-700" aria-label="Abrir menú">
+          <Icon name="menu" size={22} />
+        </summary>
+        <div class="absolute left-0 right-0 top-20 z-50 max-h-[80vh] overflow-y-auto border-b border-brand-100 bg-white shadow-card">
+          <nav class="container-page flex flex-col gap-1 py-4" aria-label="Navegación móvil">
+            {NAV.map((item) => (
+              <a href={item.href} class="rounded-md px-3 py-2.5 font-semibold text-brand-900 hover:bg-brand-50">{item.label}</a>
+            ))}
+            <p class="mt-3 px-3 text-xs font-bold uppercase tracking-wide text-brand-400">Categorías</p>
+            {categories.map((c) => (
+              <a href={categoryPath(c.slug)} class="rounded-md px-3 py-2 text-sm text-brand-700 hover:bg-brand-50">{c.name} <span class="text-brand-400">({c.count})</span></a>
+            ))}
+            <a href={whatsappLink()} target="_blank" rel="noopener" class="mt-3 inline-flex items-center justify-center gap-2 rounded-lg bg-brand-600 px-4 py-3 font-bold text-white">
+              <Icon name="whatsapp" size={18} /> Escríbenos por WhatsApp
+            </a>
+          </nav>
+        </div>
+      </details>
+    </div>
+  </div>
+</header>

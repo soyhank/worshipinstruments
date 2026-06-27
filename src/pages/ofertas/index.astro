@@ -1,0 +1,33 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
+import ProductCard from '../../components/ProductCard.astro';
+import CTASection from '../../components/CTASection.astro';
+import { SITE } from '../../config/site';
+import { onSaleProducts, discountPct, productPath } from '../../lib/catalog';
+import { breadcrumbSchema, itemListSchema } from '../../lib/schema';
+
+const items = onSaleProducts().sort((a, b) => (discountPct(b) ?? 0) - (discountPct(a) ?? 0));
+const breadcrumbItems = [
+  { name: 'Inicio', url: '/' },
+  { name: 'Ofertas', url: '/ofertas/' },
+];
+const jsonLd = [breadcrumbSchema(breadcrumbItems), itemListSchema(items, productPath)];
+---
+<Layout
+  title={`Ofertas en Proaudio e Instrumentos | ${SITE.name}`}
+  description="Aprovecha las ofertas en micrófonos, consolas, parlantes y pianos en Lima, Perú. Descuentos reales con precios en soles y envíos a todo el país."
+  canonical="/ofertas/"
+  jsonLd={jsonLd}>
+  <Breadcrumbs items={breadcrumbItems} />
+  <section class="container-page py-8">
+    <header class="max-w-3xl">
+      <h1 class="text-3xl font-extrabold text-brand-950">Ofertas y descuentos</h1>
+      <p class="mt-2 text-brand-600">{items.length} productos en oferta · Precios en soles</p>
+    </header>
+    <div class="mt-8 grid grid-cols-2 gap-5 sm:grid-cols-3 lg:grid-cols-4">
+      {items.map((p, i) => <ProductCard product={p} loading={i < 8 ? 'eager' : 'lazy'} />)}
+    </div>
+  </section>
+  <CTASection />
+</Layout>

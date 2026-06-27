@@ -1,0 +1,21 @@
+---
+import Icon from './Icon.astro';
+interface Props { items: { name: string; url: string }[] }
+const { items } = Astro.props;
+---
+<nav aria-label="Migas de pan" class="container-page pt-6">
+  <ol class="flex flex-wrap items-center gap-1 text-xs text-brand-500">
+    {items.map((item, i) => (
+      <li class="flex items-center gap-1">
+        {i < items.length - 1 ? (
+          <>
+            <a href={item.url} class="hover:text-brand-600">{item.name}</a>
+            <Icon name="chevron" size={12} class="text-brand-300" />
+          </>
+        ) : (
+          <span class="font-medium text-brand-700" aria-current="page">{item.name}</span>
+        )}
+      </li>
+    ))}
+  </ol>
+</nav>

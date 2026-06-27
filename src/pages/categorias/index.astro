@@ -1,0 +1,53 @@
+---
+import { Image } from 'astro:assets';
+import Layout from '../../layouts/Layout.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
+import CTASection from '../../components/CTASection.astro';
+import Icon from '../../components/Icon.astro';
+import { SITE } from '../../config/site';
+import { categories, productsByCategory, primaryImage, categoryPath } from '../../lib/catalog';
+import { breadcrumbSchema } from '../../lib/schema';
+
+const cards = categories.map((c) => {
+  const prods = productsByCategory(c.slug);
+  return { c, img: prods[0] ? primaryImage(prods[0]) : undefined };
+});
+const breadcrumbItems = [
+  { name: 'Inicio', url: '/' },
+  { name: 'Categorías', url: '/categorias/' },
+];
+---
+<Layout
+  title={`Categorías de Productos | ${SITE.name}`}
+  description="Explora nuestras categorías: micrófonos, consolas digitales, parlantes, pianos, baterías electrónicas, sintetizadores y video. Proaudio en Lima, Perú."
+  canonical="/categorias/"
+  jsonLd={[breadcrumbSchema(breadcrumbItems)]}>
+  <Breadcrumbs items={breadcrumbItems} />
+  <section class="container-page py-8">
+    <header class="max-w-3xl">
+      <h1 class="text-3xl font-extrabold text-brand-950">Categorías</h1>
+      <p class="mt-2 text-brand-600">Encuentra el equipo que necesitas por categoría.</p>
+    </header>
+    <div class="mt-8 grid grid-cols-2 gap-5 sm:grid-cols-3 lg:grid-cols-4">
+      {cards.map(({ c, img }) => (
+        <a href={categoryPath(c.slug)} class="group overflow-hidden rounded-2xl border border-brand-100 bg-white shadow-sm transition hover:-translate-y-0.5 hover:shadow-card">
+          <div class="aspect-square overflow-hidden bg-brand-50 p-3">
+            {img ? (
+              <Image src={img} alt={c.name} widths={[200, 400]} sizes="(max-width:640px) 50vw, 25vw" loading="lazy" class="h-full w-full object-contain transition duration-300 group-hover:scale-105" />
+            ) : (
+              <div class="grid h-full place-items-center text-brand-200"><Icon name="music" size={48} /></div>
+            )}
+          </div>
+          <div class="flex items-center justify-between p-4">
+            <div>
+              <h2 class="font-bold text-brand-900 group-hover:text-brand-600">{c.name}</h2>
+              <p class="text-xs text-brand-500">{c.count} {c.count === 1 ? 'producto' : 'productos'}</p>
+            </div>
+            <Icon name="arrow" size={18} class="text-brand-400 transition group-hover:translate-x-1" />
+          </div>
+        </a>
+      ))}
+    </div>
+  </section>
+  <CTASection />
+</Layout>
